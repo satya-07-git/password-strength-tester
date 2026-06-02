@@ -1,0 +1,562 @@
+/* -------------------------------------------------------------
+ * FortressPass CSS - Centered Minimalist Strength Analyzer
+ * Focuses on a gorgeous dynamic radial gauge and soft ambient glows
+ * ------------------------------------------------------------- */
+
+:root {
+    /* Neutral Theme variables (Default State) */
+    --theme-bg-gradient: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+    --theme-glow-1: rgba(165, 180, 252, 0.35); /* Indigo tint */
+    --theme-glow-2: rgba(216, 180, 254, 0.25); /* Purple tint */
+    --theme-accent: #4F46E5;
+    --theme-accent-hover: #4338CA;
+    --theme-accent-light: rgba(79, 70, 229, 0.08);
+    --theme-accent-border: rgba(79, 70, 229, 0.15);
+    
+    --theme-text: #1F2937;
+    --theme-text-secondary: #4B5563;
+    --theme-card-bg: rgba(255, 255, 255, 0.55);
+    --theme-card-border: rgba(255, 255, 255, 0.5);
+    --theme-card-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.06),
+                          0 1px 3px rgba(0, 0, 0, 0.02);
+    
+    /* Font stacks */
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    /* Transition constants for premium feel */
+    --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: all 0.2s ease;
+}
+
+/* Base resets & layout */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--theme-bg-gradient);
+    color: var(--theme-text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+    padding: 2rem 1rem;
+    transition: var(--transition-smooth);
+}
+
+/* Ambient dynamic background glows */
+.ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    z-index: -1;
+    pointer-events: none;
+    transition: var(--transition-smooth);
+}
+
+.glow-1 {
+    width: 500px;
+    height: 500px;
+    top: -100px;
+    left: -100px;
+    background: var(--theme-glow-1);
+}
+
+.glow-2 {
+    width: 450px;
+    height: 450px;
+    bottom: -80px;
+    right: -80px;
+    background: var(--theme-glow-2);
+}
+
+/* Single Card Layout */
+.app-container.single-card-layout {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: 10;
+}
+
+/* Header styling */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.logo-shield {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #FFFFFF;
+    color: var(--theme-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: var(--transition-smooth);
+}
+
+.logo-shield svg {
+    width: 22px;
+    height: 22px;
+}
+
+.logo-area h1 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--theme-text);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    transition: var(--transition-smooth);
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: var(--theme-text-secondary);
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+/* Badge styling */
+.badge {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 0.45rem 0.85rem;
+    border-radius: 100px;
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--theme-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 5px rgba(16, 185, 129, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* Central Analyzer Card */
+.glass-card {
+    background: var(--theme-card-bg);
+    border: 1px solid var(--theme-card-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 2.25rem;
+    box-shadow: var(--theme-card-shadow);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--theme-accent);
+    transition: var(--transition-smooth);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.card-header h2 {
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--theme-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+}
+
+.card-subtitle {
+    font-size: 0.825rem;
+    color: var(--theme-text-secondary);
+    font-weight: 500;
+}
+
+/* -------------------------------------------------------------
+ * Dynamic Level Circular Gauge Meter
+ * ------------------------------------------------------------- */
+.level-meter-container {
+    width: 170px;
+    height: 170px;
+    margin: 0.5rem auto 1rem auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radial-meter {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Start circular sweep from 12 o'clock */
+}
+
+.meter-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.45);
+    stroke-linecap: round;
+}
+
+.meter-fill {
+    fill: none;
+    stroke: var(--theme-accent);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                stroke 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.meter-center-content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+}
+
+.meter-percentage {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--theme-text);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    transition: var(--transition-smooth);
+}
+
+.meter-status-text {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--theme-text-secondary);
+    text-transform: uppercase;
+    transition: var(--transition-smooth);
+}
+
+/* Input Fields & Actions */
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.input-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--theme-text);
+    letter-spacing: 0.01em;
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-container input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    padding: 1.05rem 3.5rem 1.05rem 1.15rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--theme-text);
+    border-radius: 16px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: var(--transition-fast);
+}
+
+.input-container input:focus {
+    background: #FFFFFF;
+    border-color: var(--theme-accent);
+    box-shadow: 0 0 0 4px var(--theme-accent-border),
+                inset 0 1px 2px rgba(0, 0, 0, 0.01);
+}
+
+.input-action-btn {
+    position: absolute;
+    right: 1.15rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--theme-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: 8px;
+    transition: var(--transition-fast);
+}
+
+.input-action-btn:hover {
+    color: var(--theme-text);
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.input-action-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Metric Display Chips Grid */
+.metric-short-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 1rem;
+}
+
+@media (max-width: 380px) {
+    .metric-short-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.metric-chip {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 14px;
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.chip-title {
+    font-size: 0.675rem;
+    font-weight: 700;
+    color: var(--theme-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.chip-val {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--theme-text);
+    transition: var(--transition-smooth);
+}
+
+/* Have I Been Pwned Leak Shield Banner */
+.pwned-banner {
+    display: flex;
+    gap: 0.85rem;
+    padding: 1.1rem;
+    border-radius: 18px;
+    border: 1px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.pwned-banner.neutral {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--theme-text);
+}
+
+.pwned-banner.safe {
+    background: rgba(209, 250, 229, 0.4);
+    border-color: rgba(16, 185, 129, 0.2);
+    color: #065F46;
+}
+
+.pwned-banner.safe .pwned-icon {
+    color: #10B981;
+}
+
+.pwned-banner.leaked {
+    background: rgba(254, 226, 226, 0.6);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: #991B1B;
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.pwned-banner.leaked .pwned-icon {
+    color: #EF4444;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.pwned-icon svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.pwned-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.pwned-info h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.pwned-info p {
+    font-size: 0.775rem;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* Warnings and Security Tips */
+.feedback-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.feedback-warning {
+    display: flex;
+    gap: 0.65rem;
+    background: rgba(254, 243, 199, 0.55);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    color: #92400E;
+    padding: 0.85rem 1.1rem;
+    border-radius: 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: var(--transition-smooth);
+}
+
+.feedback-warning.hidden {
+    display: none;
+}
+
+.feedback-suggestions {
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 1.1rem;
+    border-radius: 18px;
+    transition: var(--transition-smooth);
+}
+
+.feedback-suggestions.hidden {
+    display: none;
+}
+
+.feedback-suggestions h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--theme-text);
+    margin-bottom: 0.65rem;
+    letter-spacing: 0.01em;
+}
+
+.feedback-suggestions ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.feedback-suggestions li {
+    font-size: 0.775rem;
+    font-weight: 500;
+    color: var(--theme-text-secondary);
+    position: relative;
+    padding-left: 1.1rem;
+    line-height: 1.4;
+}
+
+.feedback-suggestions li::before {
+    content: '➔';
+    position: absolute;
+    left: 0;
+    color: var(--theme-accent);
+    font-size: 0.65rem;
+    top: 1px;
+}
+
+/* Footer Styling */
+.app-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.app-footer p {
+    font-size: 0.725rem;
+    color: var(--theme-text-secondary);
+    font-weight: 500;
+    line-height: 1.4;
+    transition: var(--transition-smooth);
+}
+
+.api-credits a {
+    color: var(--theme-accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-fast);
+}
+
+.api-credits a:hover {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none !important;
+}

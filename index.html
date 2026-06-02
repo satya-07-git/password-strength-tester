@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FortressPass | Minimalist Password Strength Tester</title>
+    <meta name="description" content="A premium, state-of-the-art password strength tester with a dynamic radial level meter and zero-knowledge threat evaluation. Secure, private, and beautiful.">
+    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <!-- zxcvbn Library via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js" defer></script>
+    <!-- Core Application Logic -->
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <!-- Dynamic Ambient Background Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="app-container single-card-layout">
+        <!-- Main Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-shield">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1>FortressPass</h1>
+                    <p class="subtitle">Intelligent Threat Analyzer</p>
+                </div>
+            </div>
+            <div class="badge">
+                <span class="pulse-dot"></span> Privacy Shield Active
+            </div>
+        </header>
+
+        <!-- Main Workspace: Centered Card Layout -->
+        <main class="app-workspace">
+            <section class="glass-card main-card">
+                <div class="card-header text-center">
+                    <h2>Password Strength Tester</h2>
+                    <p class="card-subtitle">Local entropy check with zero-knowledge breach analysis</p>
+                </div>
+
+                <!-- Circular Level Meter Gauge -->
+                <div class="level-meter-container">
+                    <svg class="radial-meter" viewBox="0 0 160 160" aria-label="Password Strength Gauge">
+                        <!-- Background Circle Track -->
+                        <circle class="meter-track" cx="80" cy="80" r="68" stroke-width="8"></circle>
+                        <!-- Foreground Level Indicator Fill -->
+                        <circle class="meter-fill" id="radial-fill" cx="80" cy="80" r="68" stroke-width="8" stroke-dasharray="427.2" stroke-dashoffset="427.2"></circle>
+                    </svg>
+                    <div class="meter-center-content">
+                        <span class="meter-percentage" id="meter-percent">0%</span>
+                        <span class="meter-status-text" id="meter-level">EMPTY</span>
+                    </div>
+                </div>
+
+                <!-- Password Input Group -->
+                <div class="input-wrapper">
+                    <label for="password-input" class="input-label">Enter Password to Analyze</label>
+                    <div class="input-container">
+                        <input 
+                            type="password" 
+                            id="password-input" 
+                            placeholder="Type a password to test..." 
+                            autocomplete="off"
+                            autofocus
+                        >
+                        <button id="toggle-password" class="input-action-btn" aria-label="Toggle password visibility">
+                            <!-- Eye Icon Open (Default Hidden) -->
+                            <svg class="icon-eye-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <!-- Eye Icon Closed (Shown when Visible) -->
+                            <svg class="icon-eye-closed hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M21 21l-3.56-3.56m0 0L4.954 4.954M9.75 9.75a3.45 3.45 0 004.5 4.5M12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639a9.01 9.01 0 01-1.328 2.66m-3.83-3.83a3 3 0 00-4.24-4.24" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Info Grid (Entropy & Crack Time Indicator) -->
+                <div class="metric-short-grid">
+                    <div class="metric-chip">
+                        <span class="chip-title">Complexity</span>
+                        <span class="chip-val" id="entropy-score">0 bits</span>
+                    </div>
+                    <div class="metric-chip">
+                        <span class="chip-title">Crack Time (Offline Fast)</span>
+                        <span class="chip-val" id="time-offline-fast">Instant</span>
+                    </div>
+                </div>
+
+                <!-- Have I Been Pwned (HIBP) Leak Banner -->
+                <div id="pwned-status-card" class="pwned-banner neutral">
+                    <div class="pwned-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        </svg>
+                    </div>
+                    <div class="pwned-info">
+                        <h4 id="pwned-headline">Leak Shield Analysis</h4>
+                        <p id="pwned-description">Zero-knowledge check compares password hashes against 12+ billion exposed accounts safely.</p>
+                    </div>
+                </div>
+
+                <!-- Warnings & Security Suggestions -->
+                <div class="feedback-container">
+                    <div id="strength-warning" class="feedback-warning hidden">
+                        <div class="feedback-icon">⚠️</div>
+                        <div class="feedback-text" id="warning-text"></div>
+                    </div>
+                    <div id="suggestions-box" class="feedback-suggestions hidden">
+                        <h3>Critical Enhancements</h3>
+                        <ul id="suggestions-list">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2026 FortressPass Strength Analyzer. Client-side evaluation. Your credentials never leave your browser.</p>
+            <p class="api-credits">Powered by <a href="https://github.com/dropbox/zxcvbn" target="_blank" rel="noopener">zxcvbn</a> &amp; <a href="https://haveibeenpwned.com/API/v3#PwnedPasswords" target="_blank" rel="noopener">HaveIBeenPwned</a>.</p>
+        </footer>
+    </div>
+</body>
+</html>
